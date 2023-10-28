@@ -1,0 +1,12 @@
+
+.image13Icon {
+    background-image: url(../assets/image1.png);
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    object-fit: cover;
+    background-repeat: no-repeat;
+}
+
+
+
