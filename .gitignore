@@ -1,0 +1,61 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+logs
+*.log
+/pids
+/log
+
+
+*.local
+
+
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+/dist
+dist-ssr
+
+# Environment Files
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+
+# misc
+.DS_Store
+
+# Logs and Temporary Files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.nyc_output
+.eslintcache
+
+
+
+
+#Dependency Lock Files
+yarn.lock
+package-lock.json
+
+
+# Editor directories and fies
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.editorconfig
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
