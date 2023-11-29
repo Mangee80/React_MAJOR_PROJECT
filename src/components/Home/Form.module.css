@@ -1,0 +1,135 @@
+@import url("https://fonts.googleapis.com/css2?family=Single+Day&display=swap");
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+.formContainer {
+    background-color: #1e1e1e;
+    position: relative;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50vw;
+    min-height: 100vh;
+    padding: 4vw;
+    box-sizing: border-box; 
+}
+
+.superApp {
+    position: relative;
+    font-size: 58px;
+    line-height: 139.69%;
+    font-family: "Single Day", cursive;
+    color: #72db73;
+    text-align: center;
+}
+
+.createYourNew1 {
+    font-size: 20px;
+    line-height: 100.69%;
+    text-align: center;
+}
+
+form {
+    width: 60%;
+}
+
+.formContainer input[type="text"],
+.formContainer input[type="tel"],
+.formContainer input[type="email"] {
+    display: grid;
+    position: relative;
+    width: 100%;
+    margin: 1.0vw auto;
+    padding: 0.6rem;
+    background-color: #292929;
+    border: 2px solid red;
+    border-radius: 6px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border 0.3s;
+    color: white;
+}
+
+.formContainer input[type="text"]:focus {
+    outline: none;
+    border: 2px solid #72db73;
+}
+
+label {
+    position: relative;
+    font-size: 16px;
+    letter-spacing: 0.02em;
+    line-height: 139.69%;
+    font-family: var(--font-dm-sans);
+    color: #7c7c7c;
+    text-align: left;
+    display: inline-block;
+}
+
+form label input[type="checkbox"] {
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+    width: 90%;
+    max-width: 400px;
+    margin: -10px auto 8px;
+    text-align: left;
+    margin-top: 2px;
+}
+
+form button {
+    width: 100%;
+    border-radius: 24px;
+    background-color: #72db73;
+    margin: 30px auto;
+    padding: 8px 10px;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    letter-spacing: 0.01em;
+    line-height: 108.69%;
+    font-weight: 450;
+    font-family: var(--font-roboto);
+    color: #fff;
+}
+
+form button:hover {
+    background-color: #5cb85c;
+}
+
+.footer p {
+    font-size: 14px;
+    color: #7c7c7c;
+    width: 100%;
+    margin: 10px auto;
+    text-align: left;
+    line-height: 1.2rem;
+    font-family: var(--font-roboto);
+}
+
+.footer span {
+    color: #72db73;
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
