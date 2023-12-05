@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from "./Form.module.css";
-
+import { useNavigate } from "react-router-dom";
 
 const SignUpForm = () => {
   
@@ -17,7 +17,7 @@ const SignUpForm = () => {
   const [mailError, setMailError] = useState(false);
   const [mobileError, setMobileError] = useState(false);
   const [signUpError, setSignUpError] = useState(false);
-
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setformValues({ ...formValues, [e.target.name]: e.target.value})
   };
@@ -60,7 +60,7 @@ const SignUpForm = () => {
     }
     if (valid) {
       window.localStorage.setItem("userData", JSON.stringify(formValues));
-      //navigate("/genre");
+      navigate("/genre");
     }
   };
 
