@@ -84,7 +84,7 @@ const Category = () => {
         <div style={{ marginTop: "10vh" }}>
           <Chips
             categories={categories}
-            color={"green"}
+            color={"rgba(20, 138, 8, 1)"}
             setCategories={setCategories}
           />
           {lengthError ? (
