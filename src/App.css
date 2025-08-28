@@ -1,0 +1,65 @@
+/* App-wide styles */
+.App {
+  min-height: 100vh;
+  transition: all 0.3s ease;
+}
+
+/* Dark theme (default) */
+.App.dark {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+/* Light theme */
+.App.light {
+  background-color: #f5f5f5;
+  color: #333333;
+}
+
+/* Theme toggle button */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.theme-btn {
+  background: linear-gradient(135deg, #72db73, #5cb85c);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(114, 219, 115, 0.3);
+}
+
+.theme-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(114, 219, 115, 0.4);
+}
+
+.theme-btn:active {
+  transform: translateY(0);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .theme-toggle {
+    top: 10px;
+    right: 10px;
+  }
+  
+  .theme-btn {
+    padding: 10px 16px;
+    font-size: 12px;
+  }
+}
+
+/* Smooth transitions for theme changes */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
