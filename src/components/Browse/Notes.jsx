@@ -9,7 +9,7 @@ const Notes = () => {
   // console.log(text)
   const handleChange = (e) => {
     setText(e.target.value);
-    window.localStorage.setItem("text", JSON.stringify(text));
+    window.localStorage.setItem("text", JSON.stringify(e.target.value));
   };
   return (
     <div
