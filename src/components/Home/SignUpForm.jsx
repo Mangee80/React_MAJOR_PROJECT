@@ -140,7 +140,7 @@ const SignUpForm = () => {
         </div>
         
         <p>
-          Email <span style={{color: "green" }}>|</span> Google
+          Email <span className={styles.separator}>|</span> Google
         </p>
         <form>
           <input 
@@ -220,12 +220,12 @@ const SignUpForm = () => {
           <footer className={styles.footer}>
             <p>
               By clicking on Sign up. you agree to Superapp
-              <span style={{ color: "green" }}>Terms and Conditions of Use</span>
+              <span>Terms and Conditions of Use</span>
             </p>
             <p>
               To learn more about how Superapp collects, user, shares and protects
               your personal data please head Superapp
-              <span style={{ color: "green" }}>Privacy Policy</span>
+              <span>Privacy Policy</span>
             </p>
           </footer>
         </form>
