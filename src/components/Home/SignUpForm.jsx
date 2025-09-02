@@ -154,7 +154,7 @@ const SignUpForm = () => {
           {nameError ? (
             <p className={styles.error}>Please enter your name</p>
           ) : (
-            <></>
+            null
           )}
           <input
               onChange={(e) => handleChange(e)}
@@ -167,7 +167,7 @@ const SignUpForm = () => {
           {userNameError ? (
             <p className={styles.error}>Please enter a username</p>
           ) : (
-            <></>
+            null
           )}
           <input
               onChange={(e) => handleChange(e)}
@@ -180,7 +180,7 @@ const SignUpForm = () => {
           {mailError ? (
             <p className={styles.error}>Please enter a valid email address</p>
           ) : (
-            <></>
+            null
           )}
           <input
               onChange={(e) => handleChange(e)}
@@ -193,7 +193,7 @@ const SignUpForm = () => {
           {mobileError ? (
             <p className={styles.error}>Please enter a valid 10-digit mobile number</p>
           ) : (
-            <></>
+            null
           )}
           <label>
             <input 
@@ -208,7 +208,7 @@ const SignUpForm = () => {
             />
             Share my registration data with Superapp 
           </label>
-          {signUpError ? <p className={styles.error}>Please accept the terms</p> : <></>}
+          {signUpError ? <p className={styles.error}>Please accept the terms</p> : null}
           <button 
             type="submit" 
             onClick={(e) => handleSubmit(e)}
