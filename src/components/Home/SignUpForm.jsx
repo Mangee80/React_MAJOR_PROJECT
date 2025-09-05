@@ -125,8 +125,8 @@ const SignUpForm = () => {
 
   return (
      <div className={styles.formContainer}>
-        <div className={styles.superApp}>Super app</div>
-        <p className={styles.createYourNew1}>Create your new account</p>
+        <div className={styles.superApp}>Super App</div>
+        <p className={styles.createYourNew1}>Create a new account</p>
         
         {/* Progress Bar */}
         <div className={styles.progressContainer}>

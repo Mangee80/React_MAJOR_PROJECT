@@ -8,7 +8,7 @@ const Banner = () => {
                 <button>LOGIN</button>
             </div> */}
       <div className={styles.bottom}>
-        <p>Discover new things on SuperApp</p>
+        <p>Unlock a World of Entertainment.</p>
       </div>
       <img src={BackgroundImage} />
     </>

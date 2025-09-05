@@ -4,23 +4,16 @@ import Notes from "../components/Browse/Notes";
 import News from "../components/Browse/News";
 import Timer from "../components/Browse/Timer";
 import { useNavigate } from "react-router-dom";
+import styles from "./Browse.module.css";
+
 const Browse = () => {
   const navigate = useNavigate();
   const handleClick = () => {
     navigate("/movies");
   };
   return (
-    <div
-      style={{
-        height: "100vh",
-        width: "100vw",
-        background: "black",
-        paddingLeft: "3vw",
-        paddingTop: "3vh",
-        boxSizing: "border-box",
-      }}
-    >
-      <div style={{ display: "flex", gap: "20px" }}>
+    <div className={styles.container}>
+      <div className={styles.content}>
         <div>
           <Info />
           <Weather />
@@ -33,19 +26,7 @@ const Browse = () => {
           <News />
         </div>
       </div>
-      <button
-        style={{
-          position: "absolute",
-          bottom: "2vh",
-          right: "3vw",
-          background: "green",
-          border: "none",
-          color: "white",
-          padding: "6px",
-          borderRadius: "12px",
-        }}
-        onClick={handleClick}
-      >
+      <button className={styles.nextButton} onClick={handleClick}>
         Next Page
       </button>
     </div>

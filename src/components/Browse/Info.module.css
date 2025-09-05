@@ -1,0 +1,40 @@
+.container {
+  width: 31vw;
+  height: 35.4vh;
+  background: #5746EA;
+  border-radius: 12px;
+  padding: 6px;
+  display: flex;
+  gap: 40px;
+  box-sizing: border-box;
+}
+
+.profileImage {
+  height: 31vh;
+  width: 7vw;
+  margin-left: 20px;
+  margin-top: 14px;
+}
+
+.infoContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
+}
+
+.name {
+  color: white;
+  font-size: 22px;
+  margin-top: 35px;
+}
+
+.mail {
+  color: white;
+  font-size: 23px;
+}
+
+.username {
+  color: white;
+  font-size: 48px;
+}

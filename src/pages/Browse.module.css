@@ -1,0 +1,24 @@
+.container {
+  height: 100vh;
+  width: 100vw;
+  background: black;
+  padding-left: 3vw;
+  padding-top: 3vh;
+  box-sizing: border-box;
+}
+
+.content {
+  display: flex;
+  gap: 20px;
+}
+
+.nextButton {
+  position: absolute;
+  bottom: 2vh;
+  right: 3vw;
+  background: green;
+  border: none;
+  color: white;
+  padding: 6px;
+  border-radius: 12px;
+}
