@@ -1,152 +1,90 @@
 import up from "../../assets/up.png";
 import down from "../../assets/down.png";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
-
 import { useState } from "react";
+import styles from "./Timer.module.css";
+
 const Timer = () => {
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [hours, setHours] = useState(0);
   const [playing, setPlaying] = useState(false);
-  const increaseSecond = () => {
-    if (seconds == 59) {
-      return;
-    }
-    setSeconds((sec) => sec + 1);
-  };
-  const increaseMinute = () => {
-    if (minutes == 59) {
-      return;
-    }
-    setMinutes((min) => min + 1);
-  };
-  const increaseHour = () => {
-    setHours((hours) => hours + 1);
-  };
-  const decreaseSecond = () => {
-    if (seconds == 0) {
-      return;
-    }
-    setSeconds((sec) => sec - 1);
-  };
-  const decreaseMinute = () => {
-    if (minutes == 0) {
-      return;
-    }
-    setMinutes((min) => min - 1);
-  };
-  const decreaseHour = () => {
-    if (hours == 0) {
-      return;
-    }
-    setHours((hours) => hours - 1);
+
+  const formatTime = (time) => (time < 10 ? `0${time}` : time);
+
+  const renderTime = ({ remainingTime }) => {
+    const hours = Math.floor(remainingTime / 3600);
+    const minutes = Math.floor((remainingTime % 3600) / 60);
+    const seconds = remainingTime % 60;
+
+    return (
+      <div className={styles.countdownCircle}>
+        {formatTime(hours)}:{formatTime(minutes)}:{formatTime(seconds)}
+      </div>
+    );
   };
 
-  function toHoursAndMinutes(totalSeconds) {
-    const totalMinutes = Math.floor(totalSeconds / 60);
+  const handleTimeChange = (unit, amount) => {
+    if (unit === "hours") {
+      setHours((prev) => Math.max(0, prev + amount));
+    } else if (unit === "minutes") {
+      setMinutes((prev) => {
+        const newValue = prev + amount;
+        if (newValue < 0) return 0;
+        if (newValue > 59) return 59;
+        return newValue;
+      });
+    } else if (unit === "seconds") {
+      setSeconds((prev) => {
+        const newValue = prev + amount;
+        if (newValue < 0) return 0;
+        if (newValue > 59) return 59;
+        return newValue;
+      });
+    }
+  };
 
-    const seconds = totalSeconds % 60;
-    const hours = Math.floor(totalMinutes / 60);
-    const minutes = totalMinutes % 60;
-
-    return `${hours}:${minutes}:${seconds}`;
-  }
+  const totalSeconds = hours * 3600 + minutes * 60 + seconds;
 
   return (
-    <div
-      style={{
-        width: "63vw",
-        height: "30vh",
-        background: "#1E2343",
-        position: "absolute",
-        borderRadius: "12px",
-        marginTop: "6px",
-        display: "flex",
-        boxSizing: "border-box",
-        padding: "12px",
-        alignItems: "center",
-        justifyContent: "space-evenly",
-      }}
-    >
+    <div className={styles.timerContainer}>
       <div>
         <CountdownCircleTimer
           isPlaying={playing}
-          duration={seconds + minutes * 60 + hours * 60 * 60}
+          duration={totalSeconds}
           colors={["#FF6A6A"]}
+          onComplete={() => setPlaying(false)}
         >
-          {({ remainingTime }) => (
-            <span style={{ color: "white", fontSize: "1.5rem" }}>
-              {toHoursAndMinutes(remainingTime)}
-            </span>
-          )}
+          {renderTime}
         </CountdownCircleTimer>
       </div>
-      <div style={{ width: "35vw", textAlign: "center" }}>
-        <div
-          style={{
-            color: "white",
-            display: "flex",
-            fontSize: "2rem",
-            justifyContent: "space-evenly",
-          }}
-        >
-          <div style={{ textAlign: "center", padding: "6px" }}>
+      <div className={styles.timeControls}>
+        <div className={styles.timeUnits}>
+          <div className={styles.timeUnit}>
             <p>Hours</p>
-            <img
-              style={{ width: "20px", height: "20px" }}
-              onClick={increaseHour}
-              src={up}
-            />
-            <p>{hours}</p>
-            <img
-              style={{ width: "20px", height: "20px" }}
-              onClick={decreaseHour}
-              src={down}
-            />
+            <img src={up} alt="up arrow" className={styles.arrow} onClick={() => handleTimeChange("hours", 1)} />
+            <p>{formatTime(hours)}</p>
+            <img src={down} alt="down arrow" className={styles.arrow} onClick={() => handleTimeChange("hours", -1)} />
           </div>
-          <div style={{ textAlign: "center", padding: "6px" }}>
+          <div className={styles.timeUnit}>
             <p>Minutes</p>
-            <img
-              style={{ width: "20px", height: "20px" }}
-              onClick={increaseMinute}
-              src={up}
-            />
-            <p>{minutes}</p>
-            <img
-              style={{ width: "20px", height: "20px" }}
-              onClick={decreaseMinute}
-              src={down}
-            />
+            <img src={up} alt="up arrow" className={styles.arrow} onClick={() => handleTimeChange("minutes", 1)} />
+            <p>{formatTime(minutes)}</p>
+            <img src={down} alt="down arrow" className={styles.arrow} onClick={() => handleTimeChange("minutes", -1)} />
           </div>
-          <div style={{ textAlign: "center", padding: "6px" }}>
+          <div className={styles.timeUnit}>
             <p>Seconds</p>
-            <img
-              style={{ width: "20px", height: "20px" }}
-              onClick={increaseSecond}
-              src={up}
-            />
-            <p>{seconds}</p>
-            <img
-              style={{ width: "20px", height: "20px" }}
-              onClick={decreaseSecond}
-              src={down}
-            />
+            <img src={up} alt="up arrow" className={styles.arrow} onClick={() => handleTimeChange("seconds", 1)} />
+            <p>{formatTime(seconds)}</p>
+            <img src={down} alt="down arrow" className={styles.arrow} onClick={() => handleTimeChange("seconds", -1)} />
           </div>
         </div>
-        <div
-          onClick={() => setPlaying((prev) => !prev)}
-          style={{
-            background: "#FF6A6A",
-            borderRadius: "12px",
-            padding: "6px",
-            color: "white",
-            textAlign: "center",
-          }}
-        >
+        <div className={styles.startButton} onClick={() => setPlaying((prev) => !prev)}>
           {playing ? <p>Pause</p> : <p>Start</p>}
         </div>
       </div>
     </div>
   );
 };
+
 export default Timer;

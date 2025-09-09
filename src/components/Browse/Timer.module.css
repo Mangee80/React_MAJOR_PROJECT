@@ -1,0 +1,51 @@
+.timerContainer {
+    width: 63vw;
+    height: 30vh;
+    background: #1E2343;
+    position: absolute;
+    border-radius: 12px;
+    margin-top: 6px;
+    display: flex;
+    box-sizing: border-box;
+    padding: 12px;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.countdownCircle {
+    color: white;
+    font-size: 1.5rem;
+}
+
+.timeControls {
+    width: 35vw;
+    text-align: center;
+}
+
+.timeUnits {
+    color: white;
+    display: flex;
+    font-size: 2rem;
+    justify-content: space-evenly;
+}
+
+.timeUnit {
+    text-align: center;
+    padding: 6px;
+}
+
+.arrow {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.startButton {
+    background: #FF6A6A;
+    border-radius: 12px;
+    padding: 6px;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 10px;
+}

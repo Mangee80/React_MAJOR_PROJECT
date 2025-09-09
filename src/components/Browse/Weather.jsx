@@ -1,113 +1,106 @@
 import { useEffect, useState } from "react";
+import styles from "./Weather.module.css";
 
 const Weather = () => {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  const [weather, setWeather] = useState(false);
-  // console.log(weather)
+  const [weather, setWeather] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   useEffect(() => {
-    const fetchWeather = async () => {
-      await fetch(
-        `http://api.weatherapi.com/v1/current.json?key=${process.env.REACT_APP_WEATHER_API_KEY}&q=London&aqi=no`
-      )
-        .then(async (data) => await data.json())
-        .then((data) => setWeather(data));
+    const updateDateTime = () => {
+      const now = new Date();
+      // Format date
+      const yyyy = now.getFullYear();
+      let mm = now.getMonth() + 1;
+      let dd = now.getDate();
+      if (dd < 10) dd = "0" + dd;
+      if (mm < 10) mm = "0" + mm;
+      setDate(`${dd}-${mm}-${yyyy}`);
+
+      // Format time
+      let hours = now.getHours();
+      let minutes = now.getMinutes();
+      const ampm = hours >= 12 ? "pm" : "am";
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      setTime(`${hours}:${minutes} ${ampm}`);
     };
-    fetchWeather();
+
+    const fetchWeather = (latitude, longitude) => {
+      fetch(
+        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          setWeather(data.current_weather);
+          setLoading(false);
+        })
+        .catch(() => {
+          setError("Failed to fetch weather data.");
+          setLoading(false);
+        });
+    };
+
+    const getLocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            fetchWeather(position.coords.latitude, position.coords.longitude);
+          },
+          () => {
+            // Geolocation failed, fallback to a default location (e.g., London)
+            fetchWeather(51.5074, -0.1278);
+          }
+        );
+      } else {
+        // Geolocation not supported, fallback to a default location
+        fetchWeather(51.5074, -0.1278);
+      }
+    };
+
+    updateDateTime();
+    const dateTimeInterval = setInterval(updateDateTime, 1000); // Update time every second
+    getLocation();
+
+    return () => clearInterval(dateTimeInterval);
   }, []);
-  useEffect(() => {
-    const date = new Date();
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
-    var ampm = hours >= 12 ? "pm" : "am";
-    hours = hours % 12;
-    hours = hours ? hours : 12; // the hour '0' should be '12'
-    minutes = minutes < 10 ? "0" + minutes : minutes;
-    var strTime = hours + ":" + minutes + " " + ampm;
-    setTime(strTime);
-  });
-  useEffect(() => {
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    let mm = today.getMonth() + 1; // Months start at 0!
-    let dd = today.getDate();
 
-    if (dd < 10) dd = "0" + dd;
-    if (mm < 10) mm = "0" + mm;
-
-    const formattedToday = dd + "-" + mm + "-" + yyyy;
-    setDate(formattedToday);
-  });
   return (
-    <div
-      style={{
-        width: "31vw",
-        minHeight: "20vh",
-        background: "#101744",
-        borderRadius: "12px",
-        marginTop: "5px",
-      }}
-    >
-      <div
-        style={{
-          height: "7vh",
-          background: "#FF4ADE",
-          borderRadius: "12px",
-          color: "white",
-          display: "flex",
-          justifyContent: "space-evenly",
-          alignItems: "center",
-          fontSize: "2rem",
-        }}
-      >
+    <div className={styles.weatherContainer}>
+      <div className={styles.header}>
         <span>{date}</span>
         <span>{time}</span>
       </div>
-      <div>
-        {weather ? (
-          <div
-            style={{
-              display: "flex",
-              color: "white",
-              alignItems: "center",
-              justifyContent: "space-evenly",
-            }}
-          >
-            {" "}
+      <div className={styles.weatherInfo}>
+        {loading ? (
+          <p>Loading weather...</p>
+        ) : error ? (
+          <p>{error}</p>
+        ) : weather ? (
+          <>
             <div>
-              <img
-                src={weather.current.condition.icon}
-                style={{ width: "30px", height: "30px" }}
-              />
-              <p>{weather.current.condition.text}</p>
+              {/* Open-Meteo doesn't provide icons directly, so we can use a generic one or map weather codes to icons */}
+              <p>{weather.temperature}°C</p>
+              <p>Weather Code: {weather.weathercode}</p>
             </div>
             <div>
-              <p
-                style={{
-                  marginBottom: "12px",
-                  fontSize: "24px",
-                  marginTop: "10px",
-                }}
-              >
-                <span>{weather.current.temp_c}</span>C
+              <p className={styles.weatherText}>
+                {weather.windspeed} km/h
               </p>
-              <p>{weather.current.pressure_mb} pressure</p>
+              <p>Wind</p>
             </div>
             <div>
-              <p
-                style={{
-                  marginBottom: "12px",
-                  fontSize: "24px",
-                  marginTop: "10px",
-                }}
-              >
-                {weather.current.wind_kph} wind
+              <p className={styles.weatherText}>
+                {weather.winddirection}°
               </p>
-              <p>{weather.current.humidity} humidity</p>
+              <p>Wind Direction</p>
             </div>
-          </div>
+          </>
         ) : (
-          <></>
+          <p>No weather data available.</p>
         )}
       </div>
     </div>
@@ -115,9 +108,3 @@ const Weather = () => {
 };
 
 export default Weather;
-
-//current.condition.icon, text
-//current.temp_c
-//current.pressure_mb
-//current.wind_kph
-//current.humidity
