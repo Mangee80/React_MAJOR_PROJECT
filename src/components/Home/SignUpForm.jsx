@@ -1,115 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styles from "./Form.module.css";
-import { useNavigate } from "react-router-dom";
+import useSignUpForm from '../../hooks/useSignUpForm';
 
 const SignUpForm = () => {
-  
-  const [formValues, setformValues] = useState({
-    check: false,
-    name: "",
-    username: "",
-    mail: "",
-    mobile: "",
-  });
-
-  const [nameError, setNameError] = useState(false);
-  const [userNameError, setUserNameError] = useState(false);
-  const [mailError, setMailError] = useState(false);
-  const [mobileError, setMobileError] = useState(false);
-  const [signUpError, setSignUpError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const navigate = useNavigate();
-
-  // Calculate form completion progress
-  useEffect(() => {
-    let completed = 0;
-    if (formValues.name.trim()) completed++;
-    if (formValues.username.trim()) completed++;
-    if (formValues.mail.trim()) completed++;
-    if (formValues.mobile.trim()) completed++;
-    if (formValues.check) completed++;
-    
-    setProgress((completed / 5) * 100);
-  }, [formValues]);
-
-  const handleChange = (e) => {
-    setformValues({ ...formValues, [e.target.name]: e.target.value})
-    // Clear errors when user starts typing
-    if (e.target.name === 'name') setNameError(false);
-    if (e.target.name === 'username') setUserNameError(false);
-    if (e.target.name === 'mail') setMailError(false);
-    if (e.target.name === 'mobile') setMobileError(false);
-  };
-
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const validateMobile = (mobile) => {
-    const mobileRegex = /^[0-9]{10}$/;
-    return mobileRegex.test(mobile);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    let valid = true;
-    
-    // Name validation
-    if (!(formValues.name.trim().length > 0)) {
-      setNameError(true);
-      valid = false;
-    } else {
-      setNameError(false);
-    }
-    
-    // Username validation
-    if (!(formValues.username.trim().length > 0)) {
-      setUserNameError(true);
-      valid = false;
-    } else {
-      setUserNameError(false);
-    }
-    
-    // Email validation
-    if (!(formValues.mail.trim().length > 0) || !validateEmail(formValues.mail)) {
-      setMailError(true);
-      valid = false;
-    } else {
-      setMailError(false);
-    }
-    
-    // Mobile validation
-    if (!(formValues.mobile.trim().length > 0) || !validateMobile(formValues.mobile)) {
-      setMobileError(true);
-      valid = false;
-    } else {
-      setMobileError(false);
-    }
-    
-    // Checkbox validation
-    if (!formValues.check) {
-      setSignUpError(true);
-      valid = false;
-    } else {
-      setSignUpError(false);
-    }
-    
-    if (valid) {
-      setIsLoading(true);
-      // Simulate API call
-      setTimeout(() => {
-        window.localStorage.setItem("userData", JSON.stringify(formValues));
-        setShowSuccess(true);
-        setIsLoading(false);
-        setTimeout(() => {
-          navigate("/genre");
-        }, 1500);
-      }, 1000);
-    }
-  };
+  const {
+    formValues,
+    errors,
+    isLoading,
+    showSuccess,
+    progress,
+    handleChange,
+    handleSubmit,
+  } = useSignUpForm();
 
   if (showSuccess) {
     return (
@@ -142,76 +44,60 @@ const SignUpForm = () => {
         <p>
           Email <span className={styles.separator}>|</span> Google
         </p>
-        <form>
+        <form onSubmit={handleSubmit}>
           <input 
-              onChange={(e) => handleChange(e)}
+              onChange={handleChange}
+              value={formValues.name}
               type="text"
               name="name"
               placeholder="Name"
-              className={nameError ? styles.errorInput : ''}
-            >
-          </input>
-          {nameError ? (
-            <p className={styles.error}>Please enter your name</p>
-          ) : (
-            null
-          )}
+              className={errors.name ? styles.errorInput : ''}
+            />
+          {errors.name && <p className={styles.error}>{errors.name}</p>}
+          
           <input
-              onChange={(e) => handleChange(e)}
+              onChange={handleChange}
+              value={formValues.username}
               type="text"
               name="username"
               placeholder="Username"
-              className={userNameError ? styles.errorInput : ''}
-            >
-          </input>
-          {userNameError ? (
-            <p className={styles.error}>Please enter a username</p>
-          ) : (
-            null
-          )}
+              className={errors.username ? styles.errorInput : ''}
+            />
+          {errors.username && <p className={styles.error}>{errors.username}</p>}
+
           <input
-              onChange={(e) => handleChange(e)}
+              onChange={handleChange}
+              value={formValues.mail}
               type="email"
               name="mail"
               placeholder="Email"
-              className={mailError ? styles.errorInput : ''}
-            >
-          </input>
-          {mailError ? (
-            <p className={styles.error}>Please enter a valid email address</p>
-          ) : (
-            null
-          )}
+              className={errors.mail ? styles.errorInput : ''}
+            />
+          {errors.mail && <p className={styles.error}>{errors.mail}</p>}
+
           <input
-              onChange={(e) => handleChange(e)}
+              onChange={handleChange}
+              value={formValues.mobile}
               type="tel"
               name="mobile"
               placeholder="Mobile (10 digits)"
-              className={mobileError ? styles.errorInput : ''}
-            >
-          </input>
-          {mobileError ? (
-            <p className={styles.error}>Please enter a valid 10-digit mobile number</p>
-          ) : (
-            null
-          )}
+              className={errors.mobile ? styles.errorInput : ''}
+            />
+          {errors.mobile && <p className={styles.error}>{errors.mobile}</p>}
+
           <label>
             <input 
-              onChange={(e) => 
-                setformValues({
-                  ...formValues,
-                  [e.target.name]: e.target.checked,
-                })
-              }
+              onChange={handleChange}
+              checked={formValues.check}
               type="checkbox"
               name="check"
             />
             Share my registration data with Superapp 
           </label>
-          {signUpError ? <p className={styles.error}>Please accept the terms</p> : null}
+          {errors.check && <p className={styles.error}>{errors.check}</p>}
+
           <button 
             type="submit" 
-            onClick={(e) => handleSubmit(e)}
             disabled={isLoading}
             className={isLoading ? styles.loadingButton : ''}
           >
