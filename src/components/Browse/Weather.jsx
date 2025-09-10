@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
 import styles from "./Weather.module.css";
+import useWeather from "../../hooks/useWeather";
 
 const Weather = () => {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  const [weather, setWeather] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { weather, loading, error } = useWeather();
 
   useEffect(() => {
     const updateDateTime = () => {
       const now = new Date();
-      // Format date
       const yyyy = now.getFullYear();
       let mm = now.getMonth() + 1;
       let dd = now.getDate();
@@ -19,7 +17,6 @@ const Weather = () => {
       if (mm < 10) mm = "0" + mm;
       setDate(`${dd}-${mm}-${yyyy}`);
 
-      // Format time
       let hours = now.getHours();
       let minutes = now.getMinutes();
       const ampm = hours >= 12 ? "pm" : "am";
@@ -29,44 +26,23 @@ const Weather = () => {
       setTime(`${hours}:${minutes} ${ampm}`);
     };
 
-    const fetchWeather = (latitude, longitude) => {
-      fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          setWeather(data.current_weather);
-          setLoading(false);
-        })
-        .catch(() => {
-          setError("Failed to fetch weather data.");
-          setLoading(false);
-        });
-    };
-
-    const getLocation = () => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            fetchWeather(position.coords.latitude, position.coords.longitude);
-          },
-          () => {
-            // Geolocation failed, fallback to a default location (e.g., London)
-            fetchWeather(51.5074, -0.1278);
-          }
-        );
-      } else {
-        // Geolocation not supported, fallback to a default location
-        fetchWeather(51.5074, -0.1278);
-      }
-    };
-
     updateDateTime();
-    const dateTimeInterval = setInterval(updateDateTime, 1000); // Update time every second
-    getLocation();
+    const dateTimeInterval = setInterval(updateDateTime, 1000);
 
     return () => clearInterval(dateTimeInterval);
   }, []);
+
+  const getWeatherIcon = (weathercode) => {
+    if (weathercode >= 0 && weathercode <= 1) return "☀️";
+    if (weathercode >= 2 && weathercode <= 3) return "☁️";
+    if (weathercode >= 45 && weathercode <= 48) return "🌫️";
+    if (weathercode >= 51 && weathercode <= 67) return "🌧️";
+    if (weathercode >= 71 && weathercode <= 77) return "❄️";
+    if (weathercode >= 80 && weathercode <= 82) return "⛈️";
+    if (weathercode >= 95 && weathercode <= 99) return " thunderstorms";
+
+    return "🤷";
+  };
 
   return (
     <div className={styles.weatherContainer}>
@@ -81,21 +57,20 @@ const Weather = () => {
           <p>{error}</p>
         ) : weather ? (
           <>
-            <div>
-              {/* Open-Meteo doesn't provide icons directly, so we can use a generic one or map weather codes to icons */}
+            <div className={styles.weatherCondition}>
+              <p className={styles.weatherIcon}>
+                {getWeatherIcon(weather.weathercode)}
+              </p>
               <p>{weather.temperature}°C</p>
-              <p>Weather Code: {weather.weathercode}</p>
             </div>
-            <div>
+            <div className={styles.windInfo}>
               <p className={styles.weatherText}>
                 {weather.windspeed} km/h
               </p>
               <p>Wind</p>
             </div>
-            <div>
-              <p className={styles.weatherText}>
-                {weather.winddirection}°
-              </p>
+            <div className={styles.windInfo}>
+              <p className={styles.weatherText}>{weather.winddirection}°</p>
               <p>Wind Direction</p>
             </div>
           </>

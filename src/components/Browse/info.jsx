@@ -1,10 +1,16 @@
 import Profile from "../../assets/profileBig.png";
 import Chips from "../Global/Chips";
 import styles from "./Info.module.css";
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 const Info = () => {
-  const info = JSON.parse(window.localStorage.getItem("userData"));
-  const genre = JSON.parse(window.localStorage.getItem("genres"));
+  const info = useLocalStorage("userData");
+  const genre = useLocalStorage("genres");
+
+  if (!info || !genre) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className={styles.container}>
       <div>
