@@ -1,17 +1,13 @@
 import styles from "./Banner.module.css";
-import BackgroundImage from "../../assets/page1_bg.png";
+import Carousel from "./Carousel";
 const Banner = () => {
   return (
-    <>
-      {/* <div className={styles.top}>
-                <p>Already Have an Account ?</p>
-                <button>LOGIN</button>
-            </div> */}
+    <div className={styles.bannerContainer}>
+      <Carousel />
       <div className={styles.bottom}>
         <p>Unlock a World of Entertainment.</p>
       </div>
-      <img src={BackgroundImage} />
-    </>
+    </div>
   );
 };
 

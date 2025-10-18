@@ -1,9 +1,7 @@
-
-
-img{
+.bannerContainer {
+    position: relative;
     width: 50vw;
-    /* min-height: 100vh; */
-    
+    height: 100vh; 
 }
 
 .top{
@@ -38,4 +36,5 @@ img{
     font-size:55px;
     font-weight: 900;
     max-width: 60vw;
+    z-index: 1;
 }
