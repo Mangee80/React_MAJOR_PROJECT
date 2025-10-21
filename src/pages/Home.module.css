@@ -1,5 +1,18 @@
 .container {
-  display: flex;
-  height: 100vh;
-  background-color: black;
-}
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    background-color: black;
+  }
+  
+  .left {
+    width: 60%;
+    background-color: black;
+  }
+  
+  .right {
+    width: 40%;
+    background-image: url("../assets/page1_bg.png");
+    background-size: cover;
+    background-position: center;
+  }
